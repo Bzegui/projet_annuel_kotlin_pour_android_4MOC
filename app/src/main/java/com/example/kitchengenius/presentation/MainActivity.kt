@@ -1,4 +1,5 @@
 package com.example.kitchengenius.presentation
+import com.google.firebase.auth.FirebaseAuth
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -14,6 +15,8 @@ import com.example.kitchengenius.presentation.ui.theme.KitchenGeniusTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Initialisation de Firebase Auth
+        FirebaseAuth.getInstance()
         super.onCreate(savedInstanceState)
         setContent {
             KitchenGeniusTheme {

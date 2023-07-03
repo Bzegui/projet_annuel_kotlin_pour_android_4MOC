@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "624838005503",
+    "project_id": "kotlinprojet-87fe7",
+    "storage_bucket": "kotlinprojet-87fe7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:624838005503:android:87e5741b38e7a17b1972ca",
+        "android_client_info": {
+          "package_name": "com.example.kitchengenius"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "624838005503-hs27fmrdh69pmfgssma3e8pecqgikmgr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB5J08893M1QK8aQuQF3PblhOR9W9qxQaI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "624838005503-hs27fmrdh69pmfgssma3e8pecqgikmgr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
