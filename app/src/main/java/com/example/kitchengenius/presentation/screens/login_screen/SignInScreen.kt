@@ -1,4 +1,4 @@
-package com.example.kitchengenius.presentation.screens.signup_screen
+package com.example.kitchengenius.presentation.screens.login_screen
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
@@ -14,20 +14,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.kitchengenius.presentation.viewmodel.SignInViewModel
 import com.example.kitchengenius.presentation.viewmodel.SignUpViewModel
 import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SingUpScreen (
-    viewModel: SignUpViewModel = hiltViewModel()
+fun SignInScreen (
+    viewModel: SignInViewModel = hiltViewModel()
 ) {
     var email by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val state = viewModel.signUpState.collectAsState(initial = null)
+    val state = viewModel.signInState.collectAsState(initial = null)
 
     Column(
         modifier = Modifier
@@ -67,12 +68,12 @@ fun SingUpScreen (
         Button(
             onClick = {
                 scope.launch {
-                    viewModel.registerUser(email,password)
+                    viewModel.loginUser(email,password)
                 }
-        }, modifier = Modifier
-            .fillMaxWidth()
-            .padding(top = 20.dp, start = 30.dp, end = 30.dp), colors = ButtonDefaults.buttonColors(
-        ), shape = RoundedCornerShape(15.dp)) {
+            }, modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 20.dp, start = 30.dp, end = 30.dp), colors = ButtonDefaults.buttonColors(
+            ), shape = RoundedCornerShape(15.dp)) {
             Text(text = "Sign up", color = Color.White, modifier = Modifier.padding(7.dp))
         }
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
