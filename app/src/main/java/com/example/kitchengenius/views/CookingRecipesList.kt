@@ -14,7 +14,7 @@ import com.example.kitchengenius.view_models.CookingRecipesViewModel
 
 @Composable
 fun CookingRecipesList(
-    cookingRecipesViewModel: CookingRecipesViewModel = viewModel(),
+    cookingRecipesViewModel: CookingRecipesViewModel
 ) {
     Column (
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -25,7 +25,7 @@ fun CookingRecipesList(
     ) {
         Column {
             Text(
-                text = "",
+                text = "recipes list",
             )
         }
     }
