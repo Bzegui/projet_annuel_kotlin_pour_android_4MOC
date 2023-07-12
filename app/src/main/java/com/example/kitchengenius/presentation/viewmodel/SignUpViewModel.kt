@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.kitchengenius.data.repository.AuthRepository
 import com.example.kitchengenius.presentation.screens.login_screen.SignInState
 import com.example.kitchengenius.common.Resource
+import com.example.kitchengenius.presentation.screens.signup_screen.SignUpState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -16,23 +17,22 @@ import javax.inject.Inject
 class SignUpViewModel @Inject constructor(
     private val repository: AuthRepository
 ) : ViewModel() {
-    val _signUpState = Channel<SignInState>()
+    val _signUpState = Channel<SignUpState>()
     val signUpState = _signUpState.receiveAsFlow()
 
     fun registerUser(email:String, password:String) = viewModelScope.launch {
         repository.login(email,password).collect { result ->
             when(result) {
                 is Resource.Success ->  {
-                    _signUpState.send(SignInState(isSuccess = "Sign In Success"))
+                    _signUpState.send(SignUpState(isSuccess = "Sign In Success"))
                 }
                 is Resource.Loading ->  {
-                    _signUpState.send(SignInState(isLoading = true))
+                    _signUpState.send(SignUpState(isLoading = true))
                 }
                 is Resource.Error ->  {
-                    _signUpState.send(SignInState(isError = result.message))
+                    _signUpState.send(SignUpState(isError = result.message))
                 }
             }
-
         }
     }
 }
