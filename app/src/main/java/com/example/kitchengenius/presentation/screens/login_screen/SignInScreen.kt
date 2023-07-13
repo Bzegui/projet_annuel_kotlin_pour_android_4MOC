@@ -3,6 +3,7 @@ package com.example.kitchengenius.presentation.screens.login_screen
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -35,8 +36,6 @@ fun SignInScreen (
     viewModel: SignInViewModel = hiltViewModel()
 ) {
     val googleSignInState = viewModel.googleState.value
-
-
     val launcher =
         rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
             val account = GoogleSignIn.getSignedInAccountFromIntent(it.data)
@@ -56,11 +55,24 @@ fun SignInScreen (
     val context = LocalContext.current
     val state = viewModel.signInState.collectAsState(initial = null)
 
+   /* Scaffold(topBar = {
+        TopBar(
+            topBarType = Arrow(title = versionName, false),
+            navController = navController,
+            onDeleteBookmarks = { }) {
+
+        }
+    }) {}*/
+   // Box(modifier = Modifier
+     //   .fillMaxWidth()
+       // .background(Color.White))
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(start = 30.dp, end = 30.dp),
-        verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally
+        verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally,
+
+
     ) {
         Text(
             text = "Enter your credential's to register",
@@ -136,7 +148,7 @@ fun SignInScreen (
             horizontalArrangement = Arrangement.Center
         ) {
             IconButton(onClick = {
-                val gso= GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestEmail()
                     //.requestIdToken(ServerClient)
                     .build()
@@ -192,11 +204,9 @@ fun SignInScreen (
         }
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            if (googleSignInState.isLoading){
+            if (googleSignInState.isLoading) {
                 CircularProgressIndicator()
             }
         }
-
-
     }
 }
