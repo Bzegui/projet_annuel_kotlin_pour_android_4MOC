@@ -46,8 +46,8 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-/*
+
 @Composable
-fun Topbar(topBarType: TopBarType,
-){
-}*/
+fun topBar(){
+    val backgroundColor = Color(0xFFFF7A50)
+}
