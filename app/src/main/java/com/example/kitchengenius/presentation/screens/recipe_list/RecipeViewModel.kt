@@ -56,6 +56,38 @@ class RecipeViewModel @Inject constructor(
             }
         }.launchIn(viewModelScope.plus(Dispatchers.IO))
     }
+
+    internal fun getFiltredRecipes(filter : String){
+        interactor.getFiltredRecipesUC(filter).onEach { resource ->
+            when(resource){
+                is Resource.Error -> _uiState.update {
+                    resource.message?.let { it1 -> Log.d("Error", it1) }
+                    it.copy(
+                        isLoading = false,
+                        recipes = emptyList(),
+                        error = resource.message ?: "Une erreur est survenue"
+                    )
+                }
+                is Resource.Loading -> _uiState.update {
+                    it.copy(
+                        isLoading = true,
+                        recipes = emptyList(),
+                        error = ""
+                    )
+                }
+
+                is Resource.Success -> _uiState.update {
+                    Log.d("ZZZZ",filter)
+                    Log.d("ZZZZ", resource.data.toString())
+                    it.copy(
+                        isLoading = false,
+                        recipes = resource.data ?: emptyList(),
+                        error = ""
+                    )
+                }
+            }
+        }.launchIn(viewModelScope.plus(Dispatchers.IO))
+    }
     private fun testing(id: String){
 
     }

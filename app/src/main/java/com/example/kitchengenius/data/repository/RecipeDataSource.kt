@@ -14,4 +14,9 @@ class RecipeDataSource @Inject constructor(
         val recipeList = recipeApi.getRecipes()
         return recipeList?.map { it.toRecipe() } ?: emptyList()
     }
+
+    override suspend fun getFiltredRecipes(filter: String): List<Recipe> {
+        val recipeList = recipeApi.getFiltredRecipes(filter)
+        return recipeList?.map { it.toRecipe() } ?: emptyList()
+    }
 }

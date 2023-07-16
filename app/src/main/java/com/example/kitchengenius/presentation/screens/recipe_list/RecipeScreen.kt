@@ -10,9 +10,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
@@ -23,12 +25,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,15 +53,15 @@ fun RecipeScreen(
         uiState = uiState.value,
         onButtonClick = {
             viewModel.onEventChanged(RecipeEvent.OnButtonClicked)
-        }
-    ) {
-       // onItemClick(it)
-    }
+        },
+        onSearchRecipe = {filter -> viewModel.getFiltredRecipes(filter)},{}
+    )
 }
 
 @Composable
 fun RecipeScreenContent(uiState: UiState,
                         onButtonClick: () -> Unit,
+                        onSearchRecipe: (String) -> Unit,
                         onItemClick: (id: String) -> Unit){
     Box(modifier = Modifier.fillMaxSize()){
     Column(modifier = Modifier
@@ -73,16 +77,31 @@ fun RecipeScreenContent(uiState: UiState,
                     .padding(start = 20.dp)
                     .size(50.dp)
             )
-            searchRecipeTextField(modifier = Modifier.weight(1f))
+            searchRecipeTextField(modifier = Modifier.weight(1f),onSearchRecipe)
         }
 
         when{
             uiState.isLoading -> {
-                Text(text = "Chargement...")
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize(Alignment.Center)
+                ) {
+                    CircularProgressIndicator()
+                }
             }
 
             uiState.recipes.isEmpty() ->{
-                Text(text = "pas de recette")
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .wrapContentSize(Alignment.Center)
+                ) {
+                    Text(text = "Pas de recette",color = Color.White, modifier = Modifier
+                        .size(100.dp), style = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                    )
+                }
+
             }
 
             uiState.recipes.isNotEmpty() -> {
@@ -102,12 +121,14 @@ fun RecipeScreenContent(uiState: UiState,
 }
 
 @Composable
-fun searchRecipeTextField(modifier: Modifier = Modifier){
+fun searchRecipeTextField(modifier: Modifier = Modifier,onSearchRecipe: (String) -> Unit){
     val textState = remember { mutableStateOf("") }
 
     TextField(
         value = textState.value,
-        onValueChange = { textState.value = it },
+        onValueChange = {
+            textState.value = it
+            onSearchRecipe(it) },
         textStyle = TextStyle(fontSize = 16.sp),
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = Color.White,
@@ -139,10 +160,12 @@ fun RecipeItemList(recipe: Recipe){
             )
             .background(color = Color.White, shape = RoundedCornerShape(16.dp))
     ) {
-        Image(painter = rememberAsyncImagePainter(model = recipe.image),
+        Image(painter = rememberAsyncImagePainter(model = recipe.image,placeholder = painterResource(
+            id = R.drawable.recipe_placeholder), error = painterResource(
+            id = R.drawable.recipe_placeholder)),
             contentDescription = null,
             modifier = Modifier
-                .size(100.dp)
+                .size(120.dp)
                 .padding(8.dp),
             contentScale = ContentScale.FillBounds
         )
@@ -153,7 +176,8 @@ fun RecipeItemList(recipe: Recipe){
             Text(
                 text = recipe.title,
                 style = TextStyle(fontSize = 22.sp),
-                modifier = Modifier.padding(bottom = 16.dp)
+                modifier = Modifier.padding(bottom = 16.dp),
+                maxLines = 1
             )
 
             Row {
