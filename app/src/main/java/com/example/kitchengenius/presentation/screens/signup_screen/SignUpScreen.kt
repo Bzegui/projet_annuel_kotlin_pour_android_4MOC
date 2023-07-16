@@ -70,7 +70,6 @@ fun SignUpScreen(
                 color = Color(0xFFADADAD),
                 fontWeight = FontWeight.Bold,
                 fontSize = 25.sp,
-
                 )
             TextField(
                 modifier = Modifier

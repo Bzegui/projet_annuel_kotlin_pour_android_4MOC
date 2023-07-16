@@ -15,7 +15,6 @@ object AppModule {
     @Provides
     @Singleton
     fun providesFirebaseAuth() = FirebaseAuth.getInstance()
-
     @Provides
     @Singleton
     fun providesRepositoryImpl(firebaseAuth: FirebaseAuth):AuthRepository {

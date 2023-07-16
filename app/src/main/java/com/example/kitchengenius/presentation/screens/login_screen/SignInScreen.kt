@@ -1,8 +1,6 @@
 package com.example.kitchengenius.presentation.screens.login_screen
 
 import android.widget.Toast
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,9 +26,6 @@ import androidx.navigation.NavController
 import com.example.kitchengenius.R
 import com.example.kitchengenius.navigation.Screens
 import com.example.kitchengenius.presentation.viewmodel.SignInViewModel
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.common.api.ApiException
-import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment.Companion as ComposeUiAlignment
 
@@ -41,18 +36,7 @@ fun SignInScreen (
     navController: NavController,
     viewModel: SignInViewModel = hiltViewModel()
 ) {
-    val googleSignInState = viewModel.googleState.value
-    val launcher =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.StartActivityForResult()) {
-            val account = GoogleSignIn.getSignedInAccountFromIntent(it.data)
-            try {
-                val result = account.getResult(ApiException::class.java)
-                val credentials = GoogleAuthProvider.getCredential(result.idToken, null)
-                viewModel.googleSignIn(credentials)
-            } catch (it: ApiException) {
-                print(it)
-            }
-        }
+
     Logo_signin()
 
     var email by rememberSaveable { mutableStateOf("") }
@@ -184,20 +168,6 @@ fun SignInScreen (
                     val error = state.value?.isError
                     Toast.makeText(context, "${error}", Toast.LENGTH_LONG).show()
                 }
-            }
-        }
-
-        LaunchedEffect(key1 = googleSignInState.isSuccess) {
-            scope.launch {
-                if (googleSignInState.isSuccess != null) {
-                    Toast.makeText(context, "Sign In Success", Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-            if (googleSignInState.isLoading) {
-                CircularProgressIndicator()
             }
         }
     }
