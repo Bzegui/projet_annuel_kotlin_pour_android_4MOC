@@ -13,7 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
-import com.example.kitchengenius.navigation.KitchenGeniusNavHost
+import com.example.kitchengenius.presentation.navigation.KitchenGeniusNavHost
 import com.example.kitchengenius.presentation.ui.theme.KitchenGeniusTheme
 
 class MainActivity : ComponentActivity() {
