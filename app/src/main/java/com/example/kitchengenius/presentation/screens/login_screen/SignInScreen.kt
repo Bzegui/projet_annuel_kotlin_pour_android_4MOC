@@ -158,6 +158,7 @@ fun SignInScreen (
                 if (state.value?.isSuccess?.isNotEmpty() == true) {
                     val success = state.value?.isSuccess
                     Toast.makeText(context, "${success}", Toast.LENGTH_LONG).show()
+                    navController.navigate(Screens.RecipeListScren.route)
                 }
             }
         }
@@ -183,10 +184,11 @@ fun Logo_signin() {
     ) {
         Box {
             Image(
-                painter = painterResource(R.drawable.kitchen_genius_logo),
+                painter = painterResource(R.drawable.logo_app),
                 contentDescription = "Logo",
                 modifier = Modifier
-                    .size(100.dp)
+                    .size(150.dp)
+                    .padding(top = 50.dp)
             )
         }
         Text(

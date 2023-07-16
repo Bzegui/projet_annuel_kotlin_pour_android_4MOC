@@ -36,10 +36,6 @@ class MainActivity : ComponentActivity() {
                     contentAlignment = Alignment.Center
 
                 ) {
-                    Text(
-                        text = stringResource(R.string.app_name),
-                        fontSize = 20.sp
-                    )
                     NavigationGraph()
                 }
             }
