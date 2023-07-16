@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -58,9 +59,12 @@ fun RecipeScreen(
 fun RecipeScreenContent(uiState: UiState,
                         onButtonClick: () -> Unit,
                         onItemClick: (id: String) -> Unit){
-    Column(modifier = Modifier.padding(16.dp)) {
+    Box(modifier = Modifier.fillMaxSize()){
+    Column(modifier = Modifier
+        .padding(16.dp)
+    ) {
         Row(modifier = Modifier
-            .padding(bottom = 16.dp)
+            .padding(bottom = 16.dp, top = 16.dp)
             .fillMaxWidth()) {
             Image(
                 painter = painterResource(R.drawable.logo_app),
@@ -94,6 +98,7 @@ fun RecipeScreenContent(uiState: UiState,
             }
         }
     }
+}
 }
 
 @Composable
@@ -134,7 +139,13 @@ fun RecipeItemList(recipe: Recipe){
             )
             .background(color = Color.White, shape = RoundedCornerShape(16.dp))
     ) {
-        Image(painter = rememberAsyncImagePainter(model = recipe.image), contentDescription = null, modifier = Modifier.size(100.dp), contentScale = ContentScale.FillBounds)
+        Image(painter = rememberAsyncImagePainter(model = recipe.image),
+            contentDescription = null,
+            modifier = Modifier
+                .size(100.dp)
+                .padding(8.dp),
+            contentScale = ContentScale.FillBounds
+        )
         Column(
             modifier = Modifier
                 .padding(16.dp)
