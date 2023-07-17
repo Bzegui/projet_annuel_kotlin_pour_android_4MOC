@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.Color
 class Theme {
     companion object {
         val backgroundColor: Color = Color(0xFFFF7A50) // Remplacez par votre couleur de fond souhaitée
+        val bottomBarColor: Color = Color(0xFFFFB183)
     }
 }
 
