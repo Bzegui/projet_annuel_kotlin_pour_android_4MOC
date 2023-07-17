@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.kitchengenius.navigation.Screens
+import com.example.kitchengenius.presentation.navigation.Screen
 import com.example.kitchengenius.presentation.screens.login_screen.Logo_signin
 import com.example.kitchengenius.presentation.viewmodel.SignUpViewModel
 import kotlinx.coroutines.launch
@@ -149,7 +149,7 @@ fun SignUpScreen(
                 modifier = Modifier
                     .padding(15.dp)
                     .clickable {
-                        navController.navigate(Screens.SignInScreen.route)
+                        navController.navigate(Screen.SignInScreen.route)
                     },
                 text = "Already Have an account? sign In",
                 fontWeight = FontWeight.Bold, color = Color(0xFFADADAD),

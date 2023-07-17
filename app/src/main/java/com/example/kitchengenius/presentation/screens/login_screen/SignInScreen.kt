@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.kitchengenius.R
-import com.example.kitchengenius.navigation.Screens
+import com.example.kitchengenius.presentation.navigation.Screen
 import com.example.kitchengenius.presentation.viewmodel.SignInViewModel
 import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment.Companion as ComposeUiAlignment
@@ -145,7 +145,7 @@ fun SignInScreen (
                 modifier = Modifier
                     .padding(15.dp)
                     .clickable {
-                        navController.navigate(Screens.SignUpScreen.route)
+                        navController.navigate(Screen.SignUpScreen.route)
                     },
                 text = "New User? Sign Up",
                 fontWeight = FontWeight.Bold, color = Color(0xFFADADAD),
