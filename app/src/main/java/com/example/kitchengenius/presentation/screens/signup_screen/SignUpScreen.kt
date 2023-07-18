@@ -49,7 +49,7 @@ fun SignUpScreen(
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val state = viewModel.signUpState.collectAsState(initial = null)
-
+    val user =
     Box(
         modifier = Modifier
             .offset(0.dp, 200.dp)
@@ -160,6 +160,8 @@ fun SignUpScreen(
             scope.launch {
                 if (state.value?.isSuccess?.isNotEmpty() == true) {
                     val success = state.value?.isSuccess
+                    //get users firebase id
+                    // send user to the api with {id_firebase, empty list of string}
                     Toast.makeText(context, "$success", Toast.LENGTH_LONG).show()
                     navController.navigate(Screens.RecipeListScren.route)
                 }

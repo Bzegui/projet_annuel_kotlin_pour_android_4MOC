@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.kitchengenius.data.repository.AuthRepository
 import com.example.kitchengenius.presentation.screens.login_screen.SignInState
 import com.example.kitchengenius.common.Resource
+import com.example.kitchengenius.domain.model.User
 import com.example.kitchengenius.presentation.screens.signup_screen.SignUpState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -19,6 +20,7 @@ class SignUpViewModel @Inject constructor(
 ) : ViewModel() {
     val _signUpState = Channel<SignUpState>()
     val signUpState = _signUpState.receiveAsFlow()
+    //var firebaseId : String = ""
 
     fun registerUser(email:String, password:String) = viewModelScope.launch {
         repository.register(email,password).collect { result ->

@@ -49,6 +49,7 @@ fun SignInScreen (
         modifier = Modifier
             .offset(0.dp, 200.dp)
     ) {
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -121,6 +122,7 @@ fun SignInScreen (
             Spacer(modifier = Modifier.height(32.dp))
             Button(
                 onClick = {
+                    print("##########################")
                     scope.launch {
                         viewModel.loginUser(email = email, password = password)
                     }
@@ -147,6 +149,7 @@ fun SignInScreen (
                     .clickable {
                         navController.navigate(Screens.SignUpScreen.route)
                     },
+
                 text = "New User? Sign Up",
                 fontWeight = FontWeight.Bold, color = Color(0xFFADADAD),
             )

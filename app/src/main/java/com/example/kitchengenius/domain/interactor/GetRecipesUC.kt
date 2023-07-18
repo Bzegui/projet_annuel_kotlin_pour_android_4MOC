@@ -17,6 +17,4 @@ class GetRecipesUC @Inject constructor(private val repository: RecipeRepository)
             emit(Resource.Error(message = "Error with ${e.localizedMessage}"))
         }
     }
-
-
 }
