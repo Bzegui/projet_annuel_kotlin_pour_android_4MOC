@@ -1,6 +1,7 @@
 package com.example.kitchengenius.data.repository
 
 import com.example.kitchengenius.common.Resource
+import com.example.kitchengenius.domain.model.User
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -18,6 +19,11 @@ class AuthRepositoryImpl @Inject constructor(
             emit(Resource.Loading())
             val result = firebaseAuth.createUserWithEmailAndPassword(email,password).await()
             emit(Resource.Success(result))
+            val firebaseId = result?.user?.uid
+            val user = User(idFirebase = firebaseId.toString(), likes = emptyList())
+            // Send the user object to the API
+            sendUser(user)
+
         }.catch {
             emit(Resource.Error(it.message.toString()))
         }
@@ -33,6 +39,10 @@ class AuthRepositoryImpl @Inject constructor(
         }.catch {
             emit(Resource.Error(it.message.toString()))
         }
+    }
+    override suspend fun sendUser(user: User) {
+            sendUser(user)
+        // apiService.createUser(user).enqueue(...)
     }
 
 }
