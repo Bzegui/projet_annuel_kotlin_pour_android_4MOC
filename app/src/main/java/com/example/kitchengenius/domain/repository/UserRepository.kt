@@ -3,5 +3,5 @@ package com.example.kitchengenius.domain.repository
 import com.example.kitchengenius.domain.model.User
 
 interface UserRepository {
-    suspend fun sendUserToApi(user: User)
+    suspend fun addUser(user: User)
 }

@@ -2,9 +2,11 @@ package com.example.kitchengenius.di.module
 
 import com.example.kitchengenius.common.BASE_URL
 import com.example.kitchengenius.data.remote.api.RecipeApi
+import com.example.kitchengenius.data.remote.api.UserApi
 import com.example.kitchengenius.data.repository.AuthRepository
 import com.example.kitchengenius.data.repository.AuthRepositoryImpl
 import com.example.kitchengenius.data.repository.RecipeDataSource
+import com.example.kitchengenius.data.repository.UserDataSource
 import com.example.kitchengenius.domain.repository.RecipeRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
@@ -24,10 +26,11 @@ object AppModule {
     @Provides
     @Singleton
     fun providesFirebaseAuth() = FirebaseAuth.getInstance()
+
     @Provides
     @Singleton
-    fun providesRepositoryImpl(firebaseAuth: FirebaseAuth):AuthRepository {
-        return AuthRepositoryImpl(firebaseAuth)
+    fun providesRepositoryImpl(firebaseAuth: FirebaseAuth, userDataSource : UserDataSource):AuthRepository {
+        return AuthRepositoryImpl(firebaseAuth, userDataSource)
     }
 
     @Provides
@@ -46,4 +49,9 @@ object AppModule {
     @Singleton
     fun provideRecipeRepository(recipeApi: RecipeApi): RecipeRepository =
         RecipeDataSource(recipeApi)
+
+    @Provides
+    @Singleton
+    fun provideUserDataSource(recipeApi: RecipeApi): UserDataSource =
+        UserDataSource(recipeApi)
 }

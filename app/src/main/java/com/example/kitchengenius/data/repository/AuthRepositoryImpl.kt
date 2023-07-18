@@ -12,7 +12,9 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class AuthRepositoryImpl @Inject constructor(
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
+    private val userDataSource : UserDataSource
+
 ) : AuthRepository {
     override suspend fun register(email: String, password: String): Flow<Resource<AuthResult>> {
         return flow {
@@ -22,7 +24,7 @@ class AuthRepositoryImpl @Inject constructor(
             val firebaseId = result?.user?.uid
             val user = User(idFirebase = firebaseId.toString(), likes = emptyList())
             // Send the user object to the API
-            sendUser(user)
+            addUser(user)
 
         }.catch {
             emit(Resource.Error(it.message.toString()))
@@ -40,9 +42,9 @@ class AuthRepositoryImpl @Inject constructor(
             emit(Resource.Error(it.message.toString()))
         }
     }
-    override suspend fun sendUser(user: User) {
-            sendUser(user)
-        // apiService.createUser(user).enqueue(...)
+    override suspend fun addUser(user: User) {
+        userDataSource.addUser(user)
+        //addUser(user)
     }
 
 }

@@ -20,7 +20,7 @@ class SignUpViewModel @Inject constructor(
 ) : ViewModel() {
     val _signUpState = Channel<SignUpState>()
     val signUpState = _signUpState.receiveAsFlow()
-    var firebaseId : String = ""
+    //var firebaseId : String = ""
 
     fun registerUser(email:String, password:String) = viewModelScope.launch {
         repository.register(email,password).collect { result ->
