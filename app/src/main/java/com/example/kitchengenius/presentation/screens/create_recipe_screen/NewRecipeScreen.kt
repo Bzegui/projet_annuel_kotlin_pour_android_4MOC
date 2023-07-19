@@ -15,6 +15,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,12 +36,11 @@ fun NewRecipeScreen (
     var description by rememberSaveable { mutableStateOf1("") }
     var tags by rememberSaveable { mutableStateOf1("") }
     var process by rememberSaveable { mutableStateOf1("") }
-    var nbPeople by rememberSaveable { mutableStateOf1(0) }
-    var selectedImageUri by remember { mutableStateOf1<Uri?>(null)}
+    var nbPeople by rememberSaveable { mutableStateOf1("") }
+    var time by rememberSaveable { mutableStateOf1("") }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     //val state = viewModel.NewRecipeViewModel.collectAsState(initial = null)
-
     Box(
         modifier = Modifier
             .offset(0.dp, 85.dp)
@@ -120,7 +120,6 @@ fun NewRecipeScreen (
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 5.dp, start = 20.dp, end = 20.dp),
-
             ) {
                 Text(text = "For",
                     color = Color(0xFFADADAD),
@@ -131,17 +130,25 @@ fun NewRecipeScreen (
                         .fillMaxWidth()
                         .size(height = 50.dp, width = 50.dp)
                         .padding(start = 210.dp),
-                    value = nbPeople.toString(),
+                    value = nbPeople,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number
+                    ),
                     colors = TextFieldDefaults.textFieldColors(
                         cursorColor = Color.Black,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent
                     ),
                     onValueChange = {
-                        nbPeople = it.toInt()
+                        nbPeople = it
                     },
                     shape = RoundedCornerShape(8.dp),
                     singleLine = true,
+                    placeholder = {
+                        Text(text = "0",
+                            color = Color(0xFFADADAD),
+                            fontSize = 12.sp,)
+                    }
                 )
             }
             // Recipe time
@@ -161,17 +168,25 @@ fun NewRecipeScreen (
                         .size(height = 50.dp, width = 50.dp)
                         .padding(start = 200.dp),
 
-                    value = nbPeople.toString(),
+                    value = time,
+                    keyboardOptions = KeyboardOptions(
+                        keyboardType = KeyboardType.Number
+                    ),
                     colors = TextFieldDefaults.textFieldColors(
                         cursorColor = Color.Black,
                         focusedIndicatorColor = Color.Transparent,
                         unfocusedIndicatorColor = Color.Transparent
                     ),
                     onValueChange = {
-                        nbPeople = it.toInt()
+                        time = it
                     },
                     shape = RoundedCornerShape(8.dp),
                     singleLine = true,
+                    placeholder = {
+                        Text(text = "0",
+                            color = Color(0xFFADADAD),
+                            fontSize = 12.sp,)
+                    }
 
                     )
             }
@@ -186,7 +201,7 @@ fun NewRecipeScreen (
             TextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .size(height = 57.dp, width = 100.dp)
+                    //.size(height = 57.dp, width = 100.dp)
                     .padding(top = 5.dp, start = 20.dp, end = 20.dp),
                 value = description,
                 colors = TextFieldDefaults.textFieldColors(
@@ -198,7 +213,7 @@ fun NewRecipeScreen (
                     description = it
                 },
                 shape = RoundedCornerShape(8.dp),
-                singleLine = true,
+                singleLine = false,
                 placeholder = {
                     Text(text = "description"
                         , color = Color(0xFFADADAD),
@@ -229,7 +244,7 @@ fun NewRecipeScreen (
                     process = it
                 },
                 shape = RoundedCornerShape(8.dp),
-                singleLine = true,
+                singleLine = false,
                 placeholder = {
                     Text(text = "process"
                         , color = Color(0xFFADADAD),
