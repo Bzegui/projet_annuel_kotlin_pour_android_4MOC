@@ -28,13 +28,13 @@ import androidx.compose.ui.Alignment.Companion as ComposeUiAlignment
 @Composable
 fun NewRecipeScreen (
     navController: NavController,
-    //viewModel: NewRecipeViewModel = hiltViewModel()
 ) {
     Logo_signin()
 
     var recipeName by rememberSaveable { mutableStateOf1("") }
-    var recipeCategory by rememberSaveable { mutableStateOf1("") }
     var description by rememberSaveable { mutableStateOf1("") }
+    var tags by rememberSaveable { mutableStateOf1("") }
+    var process by rememberSaveable { mutableStateOf1("") }
     var nbPeople by rememberSaveable { mutableStateOf1(0) }
     var selectedImageUri by remember { mutableStateOf1<Uri?>(null)}
     val scope = rememberCoroutineScope()
@@ -43,7 +43,7 @@ fun NewRecipeScreen (
 
     Box(
         modifier = Modifier
-            .offset(0.dp, 100.dp)
+            .offset(0.dp, 85.dp)
     ) {
         Column(
             modifier = Modifier
@@ -58,16 +58,17 @@ fun NewRecipeScreen (
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = 10.dp, start = 20.dp, end = 20.dp),
+                    .padding(top = 5.dp, start = 20.dp, end = 20.dp),
                 text = "New Recipe",
                 color = Color(0xFFADADAD),
                 fontWeight = FontWeight.Bold,
-                fontSize = 25.sp,
+                fontSize = 20.sp,
                 )
             // Recipe name
             TextField(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .size(height = 57.dp, width = 57.dp)
                     .padding(top = 5.dp, start = 20.dp, end = 20.dp),
                 value = recipeName,
                 visualTransformation = VisualTransformation.None,
@@ -88,13 +89,13 @@ fun NewRecipeScreen (
                         fontSize = 10.sp,)
                 }
             )
-
             //Recipe categorie
             TextField(
                 modifier = Modifier
                     .fillMaxWidth()
+                    .size(height = 57.dp, width = 57.dp)
                     .padding(top = 5.dp, start = 20.dp, end = 20.dp),
-                value = recipeCategory,
+                value = tags,
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Done,
                 ),
@@ -104,12 +105,12 @@ fun NewRecipeScreen (
                     unfocusedIndicatorColor = Color.Transparent
                 ),
                 onValueChange = {
-                    recipeCategory = it
+                    tags = it
                 },
                 shape = RoundedCornerShape(8.dp),
                 singleLine = true,
                 placeholder = {
-                    Text(text = "Category",
+                    Text(text = "tags",
                         color = Color(0xFFADADAD),
                         fontSize = 10.sp,)
                 }
@@ -125,12 +126,11 @@ fun NewRecipeScreen (
                     color = Color(0xFFADADAD),
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,)
-                //
                 TextField(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(start = 200.dp),
-
+                        .size(height = 50.dp, width = 50.dp)
+                        .padding(start = 210.dp),
                     value = nbPeople.toString(),
                     colors = TextFieldDefaults.textFieldColors(
                         cursorColor = Color.Black,
@@ -142,7 +142,6 @@ fun NewRecipeScreen (
                     },
                     shape = RoundedCornerShape(8.dp),
                     singleLine = true,
-
                 )
             }
             // Recipe time
@@ -156,10 +155,10 @@ fun NewRecipeScreen (
                     , color = Color(0xFFADADAD),
                     fontWeight = FontWeight.Bold,
                     fontSize = 12.sp,)
-                //
                 TextField(
                     modifier = Modifier
                         .fillMaxWidth()
+                        .size(height = 50.dp, width = 50.dp)
                         .padding(start = 200.dp),
 
                     value = nbPeople.toString(),
@@ -176,7 +175,6 @@ fun NewRecipeScreen (
 
                     )
             }
-            //Spacer(modifier = Modifier.height(8.dp))
             // Recipe description
             Text(modifier = Modifier
                 .align(Alignment.Start)
@@ -188,8 +186,8 @@ fun NewRecipeScreen (
             TextField(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .size(height = 200.dp, width = 100.dp)
-                    .padding(top = 10.dp, start = 20.dp, end = 20.dp),
+                    .size(height = 57.dp, width = 100.dp)
+                    .padding(top = 5.dp, start = 20.dp, end = 20.dp),
                 value = description,
                 colors = TextFieldDefaults.textFieldColors(
                     cursorColor = Color.Black,
@@ -207,35 +205,42 @@ fun NewRecipeScreen (
                         fontSize = 10.sp,)
                 }
             )
+
+            // Recipe process
+            Text(modifier = Modifier
+                .align(Alignment.Start)
+                .padding(top = 5.dp, start = 20.dp, end = 20.dp),
+                text = "process",
+                color = Color(0xFFADADAD),
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,)
+            TextField(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .size(height = 150.dp, width = 100.dp)
+                    .padding(top = 5.dp, start = 20.dp, end = 20.dp),
+                value = process,
+                colors = TextFieldDefaults.textFieldColors(
+                    cursorColor = Color.Black,
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent
+                ),
+                onValueChange = {
+                    process = it
+                },
+                shape = RoundedCornerShape(8.dp),
+                singleLine = true,
+                placeholder = {
+                    Text(text = "process"
+                        , color = Color(0xFFADADAD),
+                        fontSize = 10.sp,)
+                }
+            )
             //add picture to the recipe
             AddImage()
             Spacer(modifier = Modifier.height(8.dp))
             SubmitBouton()
-           /* Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                if (state.value?.isLoading == true) {
-                    CircularProgressIndicator()
-                }
-            }*/
         }
-
-        /*LaunchedEffect(key1 = state.value?.isSuccess) {
-            scope.launch {
-                if (state.value?.isSuccess?.isNotEmpty() == true) {
-                    val success = state.value?.isSuccess
-                    Toast.makeText(context, "${success}", Toast.LENGTH_LONG).show()
-                    navController.navigate(Screens.RecipeListScren.route)
-                }
-            }
-        }*/
-
-        /*LaunchedEffect(key1 = state.value?.isError) {
-            scope.launch {
-                if (state.value?.isError?.isNotEmpty() == true) {
-                    val error = state.value?.isError
-                    Toast.makeText(context, "${error}", Toast.LENGTH_LONG).show()
-                }
-            }
-        }*/
     }
 }
 
@@ -245,24 +250,15 @@ fun AddImage() {
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 5.dp, start = 20.dp, end = 20.dp),
-
         ) {
         Text(text = "Add image" , color = Color(0xFFADADAD),
             fontWeight = FontWeight.Bold,
             fontSize = 12.sp,)
-
-
         Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 50.dp),
+                .padding(start = 70.dp),
             onClick = {
-                /* val getContent = rememberLauncherForActivityResult(
-                    contract = ActivityResultContracts.GetContent()
-                ) { uri: Uri? ->
-                    selectedImageUri = uri
-                }
-                getContent.launch("image/*")*/*/
             }
         ) {
             Text(text = "Chose your image",
@@ -273,14 +269,10 @@ fun AddImage() {
 @Composable
 fun SubmitBouton() {
     Button(
-        onClick = {
-            //scope.launch {
-                //viewModel.loginUser(email = email, password = password)
-           // }
-        },
+        onClick = {},
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 10.dp, start = 20.dp, end = 20.dp),
+            .padding(top = 5.dp, start = 20.dp, end = 20.dp),
         colors = ButtonDefaults.buttonColors(
         ),
         shape = RoundedCornerShape(16.dp)
