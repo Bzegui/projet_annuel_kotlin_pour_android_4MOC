@@ -5,5 +5,6 @@ import com.example.kitchengenius.domain.model.Recipe
 data class UiState(
     val isLoading: Boolean = false,
     val recipes: List<Recipe> = emptyList(),
-    val error: String = ""
+    val error: String = "",
+    val navigateToRecipeDetail: Recipe? = null
 )

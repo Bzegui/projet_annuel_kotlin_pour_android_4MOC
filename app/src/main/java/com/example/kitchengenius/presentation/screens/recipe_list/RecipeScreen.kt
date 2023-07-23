@@ -3,6 +3,7 @@ package com.example.kitchengenius.presentation.screens.recipe_list
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -41,12 +42,13 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.example.kitchengenius.R
 import com.example.kitchengenius.domain.model.Recipe
+import com.example.kitchengenius.navigation.Screens
+import com.squareup.moshi.Moshi
 
 @Composable
 fun RecipeScreen(
     navController: NavController,
     viewModel: RecipeViewModel = hiltViewModel(),
-    //onItemClick: (id: String) -> Unit
 ) {
     val uiState = viewModel.uiState.collectAsState()
     RecipeScreenContent(
@@ -54,7 +56,12 @@ fun RecipeScreen(
         onButtonClick = {
             viewModel.onEventChanged(RecipeEvent.OnButtonClicked)
         },
-        onSearchRecipe = {filter -> viewModel.getFiltredRecipes(filter)},{}
+        onSearchRecipe = {filter -> viewModel.getFiltredRecipes(filter)},
+        onItemClick = {recipe ->
+            Log.d("ZZZZ","CLICK CELL")
+            viewModel.onEventChanged(RecipeEvent.OnRecipeClicked(recipe = recipe))
+            navController.navigate(Screens.RecipeDetailScreen.route.replace(oldValue = "{id}", newValue = recipe._id))
+        }
     )
 }
 
@@ -62,7 +69,7 @@ fun RecipeScreen(
 fun RecipeScreenContent(uiState: UiState,
                         onButtonClick: () -> Unit,
                         onSearchRecipe: (String) -> Unit,
-                        onItemClick: (id: String) -> Unit){
+                        onItemClick: (Recipe) -> Unit){
     Box(modifier = Modifier.fillMaxSize()){
     Column(modifier = Modifier
         .padding(16.dp)
@@ -107,7 +114,7 @@ fun RecipeScreenContent(uiState: UiState,
             uiState.recipes.isNotEmpty() -> {
                 LazyColumn {
                     items(uiState.recipes) {
-                        RecipeItemList(recipe = it)
+                        RecipeItemList(recipe = it,onItemClick = onItemClick)
                     }
                 }
             }
@@ -149,7 +156,7 @@ fun searchRecipeTextField(modifier: Modifier = Modifier,onSearchRecipe: (String)
 }
 
 @Composable
-fun RecipeItemList(recipe: Recipe){
+fun RecipeItemList(recipe: Recipe, onItemClick: (Recipe) -> Unit){
     Row(
         modifier = Modifier
             .padding(16.dp)
@@ -159,6 +166,9 @@ fun RecipeItemList(recipe: Recipe){
                 shape = RoundedCornerShape(8.dp),
             )
             .background(color = Color.White, shape = RoundedCornerShape(16.dp))
+            .clickable {
+                onItemClick(recipe)
+            }
     ) {
         Image(painter = rememberAsyncImagePainter(model = recipe.image,placeholder = painterResource(
             id = R.drawable.recipe_placeholder), error = painterResource(
@@ -177,7 +187,7 @@ fun RecipeItemList(recipe: Recipe){
                 text = recipe.title,
                 style = TextStyle(fontSize = 22.sp),
                 modifier = Modifier.padding(bottom = 16.dp),
-                maxLines = 1
+                maxLines = 2
             )
 
             Row {

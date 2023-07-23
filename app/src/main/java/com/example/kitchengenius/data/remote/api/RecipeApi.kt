@@ -8,6 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 import retrofit2.http.POST
 import retrofit2.Response
+import retrofit2.http.Path
 
 interface RecipeApi {
 
@@ -16,6 +17,10 @@ interface RecipeApi {
 
     @GET("recipes")
     suspend fun getFiltredRecipes(@Query("filter") filter: String): List<RecipeDto>?
+
+    @GET("recipes/{id}")
+    suspend fun getRecipeById(@Path("id") id: String): RecipeDto?
+
 
     @POST("users")
     suspend fun addUser(@Body user: User): Response<ResponseBody>

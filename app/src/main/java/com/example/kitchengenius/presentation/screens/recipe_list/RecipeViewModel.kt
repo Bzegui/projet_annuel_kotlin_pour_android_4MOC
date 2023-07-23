@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.kitchengenius.common.Resource
 import com.example.kitchengenius.domain.interactor.RecipeInteractor
+import com.example.kitchengenius.domain.model.Recipe
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -77,8 +78,6 @@ class RecipeViewModel @Inject constructor(
                 }
 
                 is Resource.Success -> _uiState.update {
-                    Log.d("ZZZZ",filter)
-                    Log.d("ZZZZ", resource.data.toString())
                     it.copy(
                         isLoading = false,
                         recipes = resource.data ?: emptyList(),
@@ -91,10 +90,15 @@ class RecipeViewModel @Inject constructor(
     private fun testing(id: String){
 
     }
+
+    fun onRecipeItemClicked(recipe: Recipe) {
+        _uiState.update { it.copy(navigateToRecipeDetail = recipe) }
+    }
     fun onEventChanged(event: RecipeEvent){
         when(event){
             RecipeEvent.OnButtonClicked -> getRecipes()
             is RecipeEvent.OnTest -> testing(event.id)
+            is RecipeEvent.OnRecipeClicked -> onRecipeItemClicked(event.recipe)
         }
     }
 
