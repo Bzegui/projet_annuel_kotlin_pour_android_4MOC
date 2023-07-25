@@ -1,3 +1,3 @@
 package com.example.kitchengenius.common
 
-const val BASE_URL = "http://192.168.1.47:8080/"
+const val BASE_URL = "http://172.20.10.2:8080/"

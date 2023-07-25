@@ -163,7 +163,7 @@ fun SignUpScreen(
                     //get users firebase id
                     // send user to the api with {id_firebase, empty list of string}
                     Toast.makeText(context, "$success", Toast.LENGTH_LONG).show()
-                    navController.navigate(Screens.RecipeListScren.route)
+                    navController.navigate(Screens.RecipeListScreen.route)
                 }
             }
         }
