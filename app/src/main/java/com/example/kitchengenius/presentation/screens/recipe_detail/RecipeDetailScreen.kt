@@ -2,6 +2,8 @@ package com.example.kitchengenius.presentation.screens.recipe_detail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -20,12 +22,19 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.Create
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
@@ -113,6 +122,7 @@ fun RecipeDetailContent(uiState: UiState, recipe: Unit){
                         .fillMaxSize()
 
                 ) {
+                    TopIcons()
                     RecipeDetailTop(recipe = recipeSelected)
                     TagItems(tags = recipeSelected.tags)
                     Text(
@@ -138,6 +148,39 @@ fun RecipeDetailContent(uiState: UiState, recipe: Unit){
     }
 }
 
+@Composable
+fun TopIcons(){
+    var heartFilled = true
+    Row(
+        modifier = Modifier.padding(16.dp),
+        horizontalArrangement = Arrangement.End
+    ) {
+        ClickableIcon(
+            imageVector = Icons.Default.Create,
+            onClick = { /* Réagir au clic sur l'icône crayon */ }
+        )
+        ClickableIcon(
+            imageVector = Icons.Default.Clear,
+            onClick = { /* Réagir au clic sur l'icône croix */ }
+        )
+        ClickableIcon(
+            imageVector = if (heartFilled) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
+            onClick = { heartFilled = !heartFilled }
+        )
+    }
+}
+
+@Composable
+fun ClickableIcon(imageVector: ImageVector, onClick: () -> Unit) {
+    Icon(
+        imageVector = imageVector,
+        contentDescription = null,
+        tint = Color(0xFFFF7A50),
+        modifier = Modifier
+            .padding(8.dp)
+            .clickable(onClick = onClick)
+    )
+}
 @Composable
 fun RecipeDetailTop(recipe: Recipe){
     Row(

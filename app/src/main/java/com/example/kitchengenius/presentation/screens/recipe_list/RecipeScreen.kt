@@ -58,7 +58,6 @@ fun RecipeScreen(
         },
         onSearchRecipe = {filter -> viewModel.getFiltredRecipes(filter)},
         onItemClick = {recipe ->
-            Log.d("ZZZZ","CLICK CELL")
             viewModel.onEventChanged(RecipeEvent.OnRecipeClicked(recipe = recipe))
             navController.navigate(Screens.RecipeDetailScreen.route.replace(oldValue = "{id}", newValue = recipe._id))
         }
