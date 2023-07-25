@@ -52,6 +52,8 @@ import com.example.kitchengenius.R
 import com.example.kitchengenius.data.remote.api.UserApi
 import com.example.kitchengenius.data.repository.UserDataSource
 import com.example.kitchengenius.domain.model.Recipe
+import com.example.kitchengenius.navigation.Screens
+import com.example.kitchengenius.presentation.screens.recipe_list.RecipeItemList
 import com.example.kitchengenius.domain.model.User
 import com.example.kitchengenius.domain.repository.UserRepository
 import com.example.kitchengenius.presentation.screens.recipe_list.UiState
@@ -68,12 +70,13 @@ fun RecipeDetailScreen(
         uiState = uiState,
         recipe = uiState.navigateToRecipeDetail,
         user = uiState.currentUser,
-        onLikeRecipe = { viewModel.onEventChanged(RecipeDetailEvent.OnLikedRecipe) }
+        onLikeRecipe = { viewModel.onEventChanged(RecipeDetailEvent.OnLikedRecipe) },
+        navController
     )
 }
 
 @Composable
-fun RecipeDetailContent(uiState: UiState, recipe: Recipe?, user: User?,onLikeRecipe: () -> Unit) {
+fun RecipeDetailContent(uiState: UiState, recipe: Recipe?, user: User?,onLikeRecipe: () -> Unit,navController: NavController) {
     Column {
         Row(
             modifier = Modifier
@@ -176,7 +179,11 @@ fun TopIcons(recipe: Recipe,user: User?,onLikeRecipe: () -> Unit){
     ) {
         ClickableIcon(
             imageVector = Icons.Default.Create,
-            onClick = { /* Réagir au clic sur l'icône crayon */ }
+            onClick = {
+                if (recipe != null) {
+                    navController.navigate(Screens.ModifieRecipeScreen.route.replace(oldValue = "{id}", newValue = recipe._id))
+                }
+            }
         )
         ClickableIcon(
             imageVector = Icons.Default.Delete,
