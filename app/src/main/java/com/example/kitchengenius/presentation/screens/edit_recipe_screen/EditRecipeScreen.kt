@@ -1,9 +1,10 @@
-package com.example.kitchengenius.presentation.screens.modifie_recipe_screen
+package com.example.kitchengenius.presentation.screens.edit_recipe_screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -18,20 +19,27 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.kitchengenius.R
+import com.example.kitchengenius.presentation.screens.recipe_detail.RecipeDetailViewModel
 import androidx.compose.runtime.mutableStateOf as mutableStateOf1
 import androidx.compose.ui.Alignment.Companion as ComposeUiAlignment
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ModifieRecipeScreen (
+fun EditRecipeScreen (
     navController: NavController,
+    viewModel: EditRecipeViewModel = hiltViewModel(),
 ) {
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
+    var recipeSelected = uiState.navigateToRecipeDetail
+
     Logo()
 
-    var recipeName by rememberSaveable { mutableStateOf1("") }
+    var recipeTitle by rememberSaveable { mutableStateOf1("") }
     var description by rememberSaveable { mutableStateOf1("") }
     var tags by rememberSaveable { mutableStateOf1("") }
     var process by rememberSaveable { mutableStateOf1("") }
@@ -39,6 +47,9 @@ fun ModifieRecipeScreen (
     var time by rememberSaveable { mutableStateOf1("") }
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
+
+
+    //val recipe = navController.
     //val state = viewModel.NewRecipeViewModel.collectAsState(initial = null)
     Box(
         modifier = Modifier
@@ -63,67 +74,34 @@ fun ModifieRecipeScreen (
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
             )
-            // Recipe name
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .size(height = 57.dp, width = 57.dp)
-                    .padding(top = 5.dp, start = 20.dp, end = 20.dp),
-                value = recipeName,
-                visualTransformation = VisualTransformation.None,
-                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
-                colors = TextFieldDefaults.textFieldColors(
-                    cursorColor = Color.Black,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                onValueChange = {
-                    recipeName = it
-                },
-                shape = RoundedCornerShape(8.dp),
-                singleLine = true,
-                placeholder = {
-                    Text(text = "Name",
-                        color = Color(0xFFADADAD),
-                        fontSize = 10.sp,)
+
+            if (recipeSelected != null) {
+                recipeTitle = recipeSelected.title
+                tags = recipeSelected.tags.joinToString(separator = ", ")
+
+                // Recipe title
+                TitleTextField(recipeTitle) {
+                    recipeTitle = it
                 }
-            )
-            //Recipe categorie
-            TextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .size(height = 57.dp, width = 57.dp)
-                    .padding(top = 5.dp, start = 20.dp, end = 20.dp),
-                value = tags,
-                keyboardOptions = KeyboardOptions(
-                    imeAction = ImeAction.Done,
-                ),
-                colors = TextFieldDefaults.textFieldColors(
-                    cursorColor = Color.Black,
-                    focusedIndicatorColor = Color.Transparent,
-                    unfocusedIndicatorColor = Color.Transparent
-                ),
-                onValueChange = {
+
+                //tags
+                TitleTextField(tags) {
                     tags = it
-                },
-                shape = RoundedCornerShape(8.dp),
-                singleLine = true,
-                placeholder = {
-                    Text(text = "tags",
-                        color = Color(0xFFADADAD),
-                        fontSize = 10.sp,)
                 }
-            )
+            }
+
             //for how many person
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = 5.dp, start = 20.dp, end = 20.dp),
             ) {
-                Text(text = "For",
-                    color = Color(0xFFADADAD),
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 12.sp,)
+                if (recipeSelected != null) {
+                    Text(text = "For",
+                        color = Color(0xFFADADAD),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 12.sp,)
+                }
                 TextField(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -144,9 +122,12 @@ fun ModifieRecipeScreen (
                     shape = RoundedCornerShape(8.dp),
                     singleLine = true,
                     placeholder = {
-                        Text(text = "0",
-                            color = Color(0xFFADADAD),
-                            fontSize = 12.sp,)
+                        if (recipeSelected != null) {
+                            Text(text = recipeSelected.nbPeople.toString(),
+                                color = Color.Black,
+                                fontSize = 11.sp,
+                            )
+                        }
                     }
                 )
             }
@@ -182,9 +163,12 @@ fun ModifieRecipeScreen (
                     shape = RoundedCornerShape(8.dp),
                     singleLine = true,
                     placeholder = {
-                        Text(text = "0",
-                            color = Color(0xFFADADAD),
-                            fontSize = 12.sp,)
+                        if (recipeSelected != null) {
+                            Text(text = recipeSelected.time.toString(),
+                                color = Color.Black,
+                                fontSize = 11.sp,
+                            )
+                        }
                     }
 
                 )
@@ -214,9 +198,12 @@ fun ModifieRecipeScreen (
                 shape = RoundedCornerShape(8.dp),
                 singleLine = false,
                 placeholder = {
-                    Text(text = "description"
-                        , color = Color(0xFFADADAD),
-                        fontSize = 10.sp,)
+                    if (recipeSelected != null) {
+                        Text(text = recipeSelected.description,
+                            color = Color.Black,
+                            fontSize = 11.sp,
+                        )
+                    }
                 }
             )
 
@@ -245,9 +232,11 @@ fun ModifieRecipeScreen (
                 shape = RoundedCornerShape(8.dp),
                 singleLine = false,
                 placeholder = {
-                    Text(text = "process"
-                        , color = Color(0xFFADADAD),
-                        fontSize = 10.sp,)
+                    if (recipeSelected != null) {
+                        Text(text = recipeSelected.process,
+                            color = Color.Black,
+                            fontSize = 11.sp,)
+                    }
                 }
             )
             //add picture to the recipe
@@ -265,13 +254,13 @@ fun AddImage() {
             .fillMaxWidth()
             .padding(top = 5.dp, start = 20.dp, end = 20.dp),
     ) {
-        Text(text = "Add image" , color = Color(0xFFADADAD),
+        Text(text = "Change image" , color = Color(0xFFADADAD),
             fontWeight = FontWeight.Bold,
             fontSize = 12.sp,)
         Button(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 70.dp),
+                .padding(start = 40.dp),
             onClick = {
             }
         ) {
@@ -321,5 +310,36 @@ fun Logo() {
             }
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TitleTextField(fieldName : String, onFieldValueChange: (String) -> Unit) {
+    var fieldValue by remember { mutableStateOf1(fieldName) }
+    TextField(
+        modifier = Modifier
+            .fillMaxWidth()
+            .size(height = 57.dp, width = 57.dp)
+            .padding(top = 5.dp, start = 20.dp, end = 20.dp),
+        value = fieldName,
+        // visualTransformation = VisualTransformation,
+        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        colors = TextFieldDefaults.textFieldColors(
+            cursorColor = Color.Black,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent
+        ),
+        onValueChange = {
+            fieldValue = it
+            onFieldValueChange(it)
+        },
+        shape = RoundedCornerShape(8.dp),
+        singleLine = true,
+        placeholder = {
+            Text(text = fieldName,
+                color = Color.Black,
+                fontSize = 11.sp,)
+        }
+    )
 }
 

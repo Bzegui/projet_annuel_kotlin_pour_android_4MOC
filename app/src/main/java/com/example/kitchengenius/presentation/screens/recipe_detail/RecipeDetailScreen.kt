@@ -181,7 +181,7 @@ fun TopIcons(recipe: Recipe,user: User?,onLikeRecipe: () -> Unit){
             imageVector = Icons.Default.Create,
             onClick = {
                 if (recipe != null) {
-                    navController.navigate(Screens.ModifieRecipeScreen.route.replace(oldValue = "{id}", newValue = recipe._id))
+                    navController.navigate(Screens.EditRecipeScreen.route.replace(oldValue = "{id}", newValue = recipe._id))
                 }
             }
         )

@@ -1,4 +1,4 @@
-package com.example.kitchengenius.presentation.screens.modifie_recipe_screen
+package com.example.kitchengenius.presentation.screens.edit_recipe_screen
 
 import android.util.Log
 import androidx.lifecycle.SavedStateHandle
@@ -18,7 +18,7 @@ import kotlinx.coroutines.plus
 import javax.inject.Inject
 
 @HiltViewModel
-class ModifieRecipeViewModel @Inject constructor(
+class EditRecipeViewModel @Inject constructor(
     //var recipeId : String
     private val interactor: RecipeDetailInteractor,
     savedStateHandle: SavedStateHandle
@@ -29,7 +29,9 @@ class ModifieRecipeViewModel @Inject constructor(
     init {
         getRecipeById(idRecipe)
     }
-    fun getRecipeById(id: String ) {
+
+    //modifier l'accesseure
+    private fun getRecipeById(id: String ) {
         interactor.getRecipesByIdUC(id).onEach { resource ->
             when(resource){
                 is Resource.Error -> _uiState.update {
