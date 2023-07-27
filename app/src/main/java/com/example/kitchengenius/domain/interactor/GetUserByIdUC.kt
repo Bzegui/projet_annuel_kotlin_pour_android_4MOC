@@ -12,14 +12,10 @@ import javax.inject.Inject
 
 class GetUserByIdUC @Inject constructor(private val repository: UserRepository){
     operator fun invoke(idFirebase: String): Flow<Resource<User>> = flow{
-        Log.d("ZZZ", "GET USER BY ID UC")
         try {
             emit(Resource.Loading())
             val user = repository.getUserByIdFirebase(idFirebase)
-            Log.d("ZZZ", "--------------")
-            Log.d("ZZZ",user.toString())
             if(user != null){
-                Log.d("ZZZ", "------OKKKKKK--------")
                 emit(Resource.Success(user))
             }else{
                 emit(Resource.Error(message = "Error user unknown"))

@@ -71,14 +71,11 @@ class RecipeDetailViewModel @Inject constructor(
     private fun getLikeUser(){
         val userId = Firebase.auth.currentUser?.uid
         if (userId == null){
-            Log.d("ZZZ", "USERRRRID______NULL")
         }
         if(userId != null) {
-            Log.d("ZZZZ", "--user ${userId}")
             interactor.getUserByIdUC(userId).onEach { resource ->
                 when(resource){
                     is Resource.Error -> _uiState.update {
-                        Log.d("ZZZZ", "-----RESSOURCE ERROR")
                         resource.message?.let { it1 -> Log.d("Error", it1) }
                         it.copy(
                             isLoading = false,
@@ -87,7 +84,6 @@ class RecipeDetailViewModel @Inject constructor(
                         )
                     }
                     is Resource.Loading -> _uiState.update {
-                        Log.d("ZZZZ", "-----RESSOURCE LOADING")
                         it.copy(
                             isLoading = true,
                             currentUser = null,
@@ -96,8 +92,6 @@ class RecipeDetailViewModel @Inject constructor(
                     }
 
                     is Resource.Success -> _uiState.update{
-                        Log.d("ZZZZ", "-----RESSOURCE SUCCESS")
-                        Log.d("ZZZZ", "data = ${resource.data}")
                         it.copy(
                             isLoading = false,
                             currentUser = resource.data,
@@ -110,11 +104,9 @@ class RecipeDetailViewModel @Inject constructor(
     }
 
     private fun updateLikeUser(){
-        Log.d("ZZZ","entré dans la fonction updateLikeUser")
         val userId = Firebase.auth.currentUser?.uid
 
         if (userId != null) {
-            Log.d("ZZZ","user id non null = $userId")
             interactor.updateLikeUserUC(userId,idRecipe).onEach { resource ->
                 when(resource){
                     is Resource.Error -> _uiState.update{
@@ -132,15 +124,12 @@ class RecipeDetailViewModel @Inject constructor(
                 }
             }.launchIn(viewModelScope.plus(Dispatchers.IO))
         }else{
-            Log.d("ZZZ","user id vide")
         }
     }
 
     fun onEventChanged(event: RecipeDetailEvent){
-        Log.d("ZZZZ","entrer dans la fonction oneventChanged")
         when(event){
             is RecipeDetailEvent.OnLikedRecipe -> {
-                Log.d("ZZZZ","Event = on like recipe")
                 updateLikeUser()
 
             }
