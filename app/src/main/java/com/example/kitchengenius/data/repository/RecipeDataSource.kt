@@ -16,7 +16,7 @@ class RecipeDataSource @Inject constructor(
     }
 
     override suspend fun getRecipeById(id: String): Recipe?{
-        var recipe = recipeApi.getRecipeById(id)
+        val recipe = recipeApi.getRecipeById(id)
         if (recipe != null) {
             return recipe.toRecipe()
         }
@@ -26,5 +26,14 @@ class RecipeDataSource @Inject constructor(
     override suspend fun getFiltredRecipes(filter: String): List<Recipe> {
         val recipeList = recipeApi.getFiltredRecipes(filter)
         return recipeList?.map { it.toRecipe() } ?: emptyList()
+    }
+
+    override suspend fun getLikedRecipes(idFirebase: String): List<Recipe> {
+        val recipeList = recipeApi.getLikedRecipe(idFirebase)
+        return recipeList?.map { it.toRecipe() } ?: emptyList()
+    }
+
+    override suspend fun addLikeUser(idFirebase: String, recipeId: String){
+        recipeApi.addLikeUser(idFirebase,recipeId)
     }
 }

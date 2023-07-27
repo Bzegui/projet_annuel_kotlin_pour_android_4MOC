@@ -4,5 +4,6 @@ import javax.inject.Inject
 
 data class RecipeInteractor @Inject constructor(
     val getRecipesUC: GetRecipesUC,
-    val getFiltredRecipesUC: GetFiltredRecipesUC
+    val getFiltredRecipesUC: GetFiltredRecipesUC,
+    val getLikedRecipesUC: GetLikedRecipesUC
 )

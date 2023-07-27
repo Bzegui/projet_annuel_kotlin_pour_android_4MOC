@@ -43,6 +43,8 @@ import coil.compose.rememberAsyncImagePainter
 import com.example.kitchengenius.R
 import com.example.kitchengenius.domain.model.Recipe
 import com.example.kitchengenius.navigation.Screens
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.squareup.moshi.Moshi
 
 @Composable
@@ -56,7 +58,18 @@ fun RecipeScreen(
         onButtonClick = {
             viewModel.onEventChanged(RecipeEvent.OnButtonClicked)
         },
-        onSearchRecipe = {filter -> viewModel.getFiltredRecipes(filter)},
+        onSearchRecipe = {filter ->
+            if(filter == "fav"){
+                val idFirebase = Firebase.auth.currentUser?.uid
+                if(idFirebase != null){
+                    viewModel.getLikedRecipes(idFirebase)
+                }else{
+                    viewModel.getFiltredRecipes(filter)
+                }
+            }else{
+                viewModel.getFiltredRecipes(filter)
+            }
+           },
         onItemClick = {recipe ->
             viewModel.onEventChanged(RecipeEvent.OnRecipeClicked(recipe = recipe))
             navController.navigate(Screens.RecipeDetailScreen.route.replace(oldValue = "{id}", newValue = recipe._id))
