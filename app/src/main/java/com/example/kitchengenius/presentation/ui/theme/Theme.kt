@@ -1,4 +1,27 @@
-package com.example.kitchengenius.presentation.ui.theme
+
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+
+class Theme {
+    companion object {
+        val backgroundColor: Color = Color(0xFFFF7A50) // Remplacez par votre couleur de fond souhaitée
+    }
+}
+
+@Composable
+fun MyAppTheme(content: @Composable () -> Unit) {
+    MaterialTheme(
+            MaterialTheme.colorScheme.copy(
+            background = Theme.backgroundColor
+        )
+    ) {
+        content()
+    }
+}
+
+
+/*package com.example.kitchengenius.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -67,4 +90,4 @@ fun KitchenGeniusTheme(
         typography = Typography,
         content = content
     )
-}
+}*/
