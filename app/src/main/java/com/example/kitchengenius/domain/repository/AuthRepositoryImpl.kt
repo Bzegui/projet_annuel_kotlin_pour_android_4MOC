@@ -1,8 +1,8 @@
-package com.example.kitchengenius.data.repository
+package com.example.kitchengenius.domain.repository
 
 import com.example.kitchengenius.common.Resource
+import com.example.kitchengenius.data.repository.UserDataSource
 import com.example.kitchengenius.domain.model.User
-import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.flow.Flow

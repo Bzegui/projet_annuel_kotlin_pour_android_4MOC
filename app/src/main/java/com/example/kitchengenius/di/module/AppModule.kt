@@ -3,8 +3,8 @@ package com.example.kitchengenius.di.module
 import com.example.kitchengenius.common.BASE_URL
 import com.example.kitchengenius.data.remote.api.RecipeApi
 import com.example.kitchengenius.data.remote.api.UserApi
-import com.example.kitchengenius.data.repository.AuthRepository
-import com.example.kitchengenius.data.repository.AuthRepositoryImpl
+import com.example.kitchengenius.domain.repository.AuthRepository
+import com.example.kitchengenius.domain.repository.AuthRepositoryImpl
 import com.example.kitchengenius.data.repository.RecipeDataSource
 import com.example.kitchengenius.data.repository.UserDataSource
 import com.example.kitchengenius.domain.repository.RecipeRepository
@@ -30,7 +30,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesRepositoryImpl(firebaseAuth: FirebaseAuth, userDataSource : UserDataSource):AuthRepository {
+    fun providesRepositoryImpl(firebaseAuth: FirebaseAuth, userDataSource : UserDataSource): AuthRepository {
         return AuthRepositoryImpl(firebaseAuth, userDataSource)
     }
 

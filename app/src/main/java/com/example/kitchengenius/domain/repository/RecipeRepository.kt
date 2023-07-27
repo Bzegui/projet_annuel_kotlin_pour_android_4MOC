@@ -1,6 +1,7 @@
 package com.example.kitchengenius.domain.repository
 
 import com.example.kitchengenius.domain.model.Recipe
+import com.example.kitchengenius.domain.model.User
 
 interface RecipeRepository {
     suspend fun getRecipes(): List<Recipe>
