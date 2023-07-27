@@ -71,7 +71,7 @@ fun RecipeDetailScreen(
         recipe = uiState.navigateToRecipeDetail,
         user = uiState.currentUser,
         onLikeRecipe = { viewModel.onEventChanged(RecipeDetailEvent.OnLikedRecipe) },
-        navController
+        navController = navController
     )
 }
 
@@ -144,7 +144,7 @@ fun RecipeDetailContent(uiState: UiState, recipe: Recipe?, user: User?,onLikeRec
                             .fillMaxSize()
 
                     ) {
-                        TopIcons(recipe = recipeSelected,user = user,onLikeRecipe = onLikeRecipe)
+                        TopIcons(recipe = recipeSelected,user = user,onLikeRecipe = onLikeRecipe,navController)
                         RecipeDetailTop(recipe = recipeSelected)
                         TagItems(tags = recipeSelected.tags)
                         Text(
@@ -171,7 +171,7 @@ fun RecipeDetailContent(uiState: UiState, recipe: Recipe?, user: User?,onLikeRec
 }
 
 @Composable
-fun TopIcons(recipe: Recipe,user: User?,onLikeRecipe: () -> Unit){
+fun TopIcons(recipe: Recipe,user: User?,onLikeRecipe: () -> Unit,navController: NavController){
     val isLiked = remember { mutableStateOf(user?.likes?.contains(recipe._id) ?: false) }
     Row(
         modifier = Modifier.padding(16.dp),

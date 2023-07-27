@@ -2,6 +2,7 @@ package com.example.kitchengenius.di.module
 
 import com.example.kitchengenius.common.BASE_URL
 import com.example.kitchengenius.data.remote.api.RecipeApi
+import com.example.kitchengenius.data.remote.api.UserApi
 import com.example.kitchengenius.domain.repository.AuthRepository
 import com.example.kitchengenius.domain.repository.AuthRepositoryImpl
 import com.example.kitchengenius.data.repository.RecipeDataSource
